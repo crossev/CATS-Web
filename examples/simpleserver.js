@@ -107,6 +107,7 @@ function setupServer() {
         // when using simple audio input
         client.on('message', async function(data) {
             // we get the dataURL which was sent from the client
+            console.log("We got the dataURL which was sent from the client")
             const dataURL = data.audio.dataURL.split(',').pop();
             // we will convert it to a Buffer
             let fileBuffer = Buffer.from(dataURL, 'base64');

@@ -90,6 +90,7 @@
             recordAudio.startRecording();
             stopRecording.disabled = false;
         }, function(error) {
+            console.error("THERE WAS AN EFFOR");
             console.error(JSON.stringify(error));
         });
     };
@@ -125,11 +126,25 @@
     const intentInput = document.getElementById('intent');
     const textInput = document.getElementById('queryText');
     socketio.on('results', function (data) {
+        console.log("Results from server:");
         console.log(data);
         // show the results on the screen
+        // Change this to sepearate out the types of results
+        if (data[0].alternativeQueryResults[0])
+        {
+            resultpreview.innerHTML += "\n" + data[0].alternativeQueryResults[0].fulfillmentText;
+             if(data[0].alternativeQueryResults[0].intent != null){
+                 intentInput.value = data[0].alternativeQueryResults[0].intent.displayName;
+             }
+            textInput.value = "" + data[0].alternativeQueryResults[0].queryText;
+        }
+
         if(data[0].queryResult){
-            resultpreview.innerHTML += "" + data[0].queryResult.fulfillmentText;
-            intentInput.value = data[0].queryResult.intent.displayName;
+            resultpreview.innerHTML += "\n" + data[0].queryResult.fulfillmentText;
+            if(data[0].queryResult.intent != null){
+                intentInput.value = data[0].queryResult.intent.displayName;
+            }
+            
             textInput.value = "" + data[0].queryResult.queryText;
         }
     });

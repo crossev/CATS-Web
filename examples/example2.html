@@ -56,7 +56,8 @@
 
     startRecording.onclick = function() {
         startRecording.disabled = true;
-
+        console.log("Started Recording")
+        
         navigator.getUserMedia({
             audio: true
         }, function(stream) {
