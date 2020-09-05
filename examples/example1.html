@@ -63,13 +63,11 @@
         //4)
         // make use of WebRTC JavaScript method getUserMedia()
         // to capture the browser microphone stream
-        
+        var constraints = { audio: true };
         //try {
-            navigator.mediaDevices.getUserMedia({
-                audio: true
-            }, function(stream) {
-
-                //5)
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(stream) {
+                            //5)
                 recordAudio = RecordRTC(stream, {
                     type: 'audio',
 
@@ -87,12 +85,14 @@
                     recorderType: StereoAudioRecorder,
                     // Dialogflow / STT requires mono audio
                     numberOfAudioChannels: 1
-            });
+                });
+            
             /* use the stream */
         //} catch(err) {
     /* handle the error */
         //}
-        /* DEPRICATED
+        // DEPRICATED
+        /*
         navigator.getUserMedia({
             audio: true
         }, function(stream) {
@@ -120,9 +120,11 @@
 
             recordAudio.startRecording();
             stopRecording.disabled = false;
-        }, function(error) {
+        })
+        .catch(function(error) {
             console.error("THERE WAS AN EFFOR");
             console.error(JSON.stringify(error));
+            console.log(error.name + ": " + error.message);// always check for errors at the end.
         });
     };
 
