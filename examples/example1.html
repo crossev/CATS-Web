@@ -63,6 +63,36 @@
         //4)
         // make use of WebRTC JavaScript method getUserMedia()
         // to capture the browser microphone stream
+        
+        //try {
+            navigator.mediaDevices.getUserMedia({
+                audio: true
+            }, function(stream) {
+
+                //5)
+                recordAudio = RecordRTC(stream, {
+                    type: 'audio',
+
+                //6)
+                    mimeType: 'audio/webm',
+                    sampleRate: 44100,
+                    // used by StereoAudioRecorder
+                    // the range 22050 to 96000.
+                    // let us force 16khz recording:
+                    desiredSampRate: 16000, 
+                    // this should match with Syour server code
+
+                    // MediaStreamRecorder, StereoAudioRecorder, WebAssemblyRecorder
+                    // CanvasRecorder, GifRecorder, WhammyRecorder
+                    recorderType: StereoAudioRecorder,
+                    // Dialogflow / STT requires mono audio
+                    numberOfAudioChannels: 1
+            });
+            /* use the stream */
+        //} catch(err) {
+    /* handle the error */
+        //}
+        /* DEPRICATED
         navigator.getUserMedia({
             audio: true
         }, function(stream) {
@@ -86,6 +116,7 @@
                     // Dialogflow / STT requires mono audio
                     numberOfAudioChannels: 1
             });
+            */
 
             recordAudio.startRecording();
             stopRecording.disabled = false;
